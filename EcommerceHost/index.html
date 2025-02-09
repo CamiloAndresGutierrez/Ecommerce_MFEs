@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav-bar></nav-bar>
+      <div class="main-content">
+        <router-component>
+          <route path="/" component="categories-component"></route>
+          <route path="/clothing" component="mfe-clothing-main-page"></route>
+          <route path="/clothing/female/:id" component="footer-component"></route>
+          <route path="/clothing/male/:id" component="nav-bar"></route>
+        </router-component>
+      </div>
+      <footer-component></footer-component>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+    <link rel="stylesheet" href="style.css">
+  </body>
+</html>
