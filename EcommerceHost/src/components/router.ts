@@ -1,5 +1,7 @@
 class Router extends HTMLElement {
     routes: { path: string, component: string }[] = [];
+    currentLocation = window.location.pathname
+    private isFirstRender = true;
 
     constructor() {
         super();
@@ -13,13 +15,13 @@ class Router extends HTMLElement {
         }));
     }
 
-    navigate(url: string) {
+    navigate(url: string, shouldPushState: boolean = true) {
         const { path = '', component = '', urlParams = {} } = this.matchRouteAndComponent(url);
         if (!path || !component) {
             return;
         }
 
-        window.history.pushState({ path, urlParams }, '', url);
+        if (shouldPushState) window.history.pushState({ path, urlParams }, '', url)
         const componentElement = document.createElement(component);
         Object.assign(componentElement, { urlParams });
         this.innerHTML = '';
@@ -28,7 +30,23 @@ class Router extends HTMLElement {
 
     connectedCallback() {
         this.createRoutes();
-        this.navigate(window.location.pathname);
+
+        if (this.isFirstRender) {
+            this.navigate(this.currentLocation);
+            this.isFirstRender = false;
+        }
+
+        const originalPushState = window.history.pushState;
+        window.history.pushState = new Proxy(originalPushState, {
+            apply: (target, thisArg, [state, title, url]) => {
+                target.apply(thisArg, [state, title, url]);
+                this.navigate(url, false);
+            }
+        });
+
+        window.addEventListener('popstate', () => {
+            this.navigate(window.location.pathname);
+        });
     }
 
     private isDynamicRoute(routePart: string) {
@@ -44,8 +62,6 @@ class Router extends HTMLElement {
         for (const route of this.routes) {
             const routeParts = this.removeTrailingSlash(route.path).split('/');
             const pathParts = this.removeTrailingSlash(path).split('/');
-            console.log("routeParts", routeParts);
-            console.log("pathParts", pathParts);
             if (routeParts.length !== pathParts.length) {
                 continue;
             }

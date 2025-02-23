@@ -6,9 +6,11 @@
     color: #000;
     height: 80px;
 }
+
 .navbar-container {
     text-align: center;
 }
+
 .navbar-link {
     color: white;
     text-decoration: none;

@@ -39,7 +39,7 @@ input, textarea {
 
 /* Main content */
 .main-content {
-  height: 80vh;
+  min-height: calc(100vh - 80px - 70px);
 }
 
 /* Container */
