@@ -51,21 +51,4 @@ class Categories extends HTMLElement {
     }
   }
   
-  export default Categories;
-
-
-  // <div class="category-card">
-  //           <h2 class="category-card-title">
-  //             Clothing
-  //           </h2>
-  //         </div>
-  //         <div class="category-card">
-  //           <h2 class="category-card-title">Electronics</h2>
-  //         </div>
-  //         <div class="category-card">
-  //           <h2 class="category-card-title">Home</h2>
-  //         </div>
-  //         <div class="category-card">
-  //           <h2 class="category-card-title">Beauty</h2>
-  //         </div>
-  
+export default Categories;

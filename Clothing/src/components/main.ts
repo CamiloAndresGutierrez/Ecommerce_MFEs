@@ -1,9 +1,14 @@
+import ClothingCategories from './clothing_categories'
+
 class MFEClothingMainPage extends HTMLElement {
     shadow: ShadowRoot;
 
     constructor() {
         super();
         this.shadow = this.attachShadow({mode: 'open'})
+        if (!customElements.get('clothing-categories')) {
+          customElements.define('clothing-categories', ClothingCategories);
+        }
     }
 
     connectedCallback() {
@@ -11,14 +16,9 @@ class MFEClothingMainPage extends HTMLElement {
     }
 
     render() {
-        this.shadow.innerHTML = `
-          <div>
-            <h1>Clothing</h1>
-            <p class="read-the-docs">
-              Click on the Clothing logo to learn more
-            </p>
-          </div>
-        `
+      this.shadow.innerHTML = `
+        <clothing-categories></clothing-categories>
+      `
     }
 }
 

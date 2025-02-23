@@ -15,13 +15,12 @@ class Router extends HTMLElement {
         }));
     }
 
-    navigate(url: string, shouldPushState: boolean = true) {
+    navigate(url: string) {
         const { path = '', component = '', urlParams = {} } = this.matchRouteAndComponent(url);
         if (!path || !component) {
             return;
         }
 
-        if (shouldPushState) window.history.pushState({ path, urlParams }, '', url)
         const componentElement = document.createElement(component);
         Object.assign(componentElement, { urlParams });
         this.innerHTML = '';
@@ -40,7 +39,7 @@ class Router extends HTMLElement {
         window.history.pushState = new Proxy(originalPushState, {
             apply: (target, thisArg, [state, title, url]) => {
                 target.apply(thisArg, [state, title, url]);
-                this.navigate(url, false);
+                this.navigate(url);
             }
         });
 
