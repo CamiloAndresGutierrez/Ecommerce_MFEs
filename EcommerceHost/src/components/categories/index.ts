@@ -1,6 +1,11 @@
 import './style.css'
 
-const CATEGORIES = [
+interface ICategory {
+  name: string,
+  url: string
+}
+
+const CATEGORIES: ICategory[] = [
   {name: 'Clothing', url: 'clothing'},
   {name: 'Electronics', url: 'electronics'},
   {name: 'Home', url: 'home-decor'},
@@ -20,23 +25,35 @@ class Categories extends HTMLElement {
       this.renderCategories();
     }
 
+    createCardName(name: string) {
+      const categoryName = document.createElement('h2');
+      categoryName.className = "category-card-title";
+      categoryName.innerHTML = name || "";
+
+      return categoryName
+    }
+
+    createContainer(category: ICategory) {
+      const cardName = this.createCardName(category.name)
+      
+      const categoryCard = document.createElement('div');
+      categoryCard.className = "category-card";
+      categoryCard.appendChild(cardName)
+
+      categoryCard.addEventListener('click', () => {
+        window.history.pushState({}, '', category.url);
+      })
+
+      return categoryCard
+    }
+
     renderCategories() {
       const cardsContainer = this.shadow.querySelector('.category-cards');
 
       CATEGORIES.forEach(category => {
-        const categoryCard = document.createElement('div');
-        const categoryName = document.createElement('h2');
-  
-        categoryCard.className = "category-card";
-        categoryName.className = "category-card-title";
-        categoryName.innerHTML = category.name || "";
-        categoryCard.appendChild(categoryName)
+        const container = this.createContainer(category);
 
-        categoryCard.addEventListener('click', () => {
-          window.history.pushState({}, '', category.url);
-        })
-
-        cardsContainer && cardsContainer.appendChild(categoryCard)
+        cardsContainer && cardsContainer.appendChild(container);
       })
     }
   

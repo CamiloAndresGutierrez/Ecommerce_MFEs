@@ -7,7 +7,7 @@ export default defineConfig({
       name: "clothing-category",
       filename: "remoteEntry.js",
       exposes: {
-        "./clothing-page": "./src/index.ts",
+        "./clothing-page": "./src/components/clothing_categories/index.ts",
       },
       shared: [],
     }),
